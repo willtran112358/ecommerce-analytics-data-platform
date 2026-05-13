@@ -1,15 +1,16 @@
-# Retail Analytics Platform
+# Winmart Retail Analytics Platform
 
-Omnichannel retail operations platform with real-time point-of-sale (POS), inventory management, customer analytics, and supply chain optimization.
+Comprehensive omnichannel retail operations platform for Winmart grocery chain stores across Vietnam. Integrates real-time point-of-sale (POS), inventory management, customer analytics, and supply chain optimization to drive data-driven decisions across the store network.
 
 ## Overview
 
-Enterprise retail analytics system for multi-location retail operations:
-- Real-time POS transaction processing and reconciliation
-- Inventory management with demand forecasting
-- Customer segmentation and personalized offers
-- Store performance analytics and benchmarking
-- Supply chain optimization and stock level predictions
+Enterprise retail analytics system purpose-built for Winmart grocery retail operations:
+- Real-time POS transaction processing and reconciliation across all Winmart locations
+- Multi-location inventory management with demand forecasting for grocery SKUs
+- Customer segmentation and personalized offers for loyalty program members
+- Store performance analytics and benchmarking across Winmart network
+- Supply chain optimization and stock level predictions for perishables and dry goods
+- Real-time shelf availability and out-of-stock alerts
 
 ## Tech Stack
 
@@ -152,28 +153,36 @@ streamlit run src/dashboards/app.py
 from src.pos.transaction import TransactionProcessor
 from src.inventory.manager import InventoryManager
 
-# Process transaction
+# Process Winmart transaction
 processor = TransactionProcessor()
 result = processor.process_transaction({
-    "store_id": "STORE_001",
-    "transaction_id": "TXN_12345",
-    "items": [{"sku": "SKU_001", "quantity": 2, "price": 29.99}],
-    "timestamp": "2024-05-13T10:30:00Z"
+    "store_id": "WINMART_HCM_001",  # Winmart store in Ho Chi Minh City
+    "transaction_id": "TXN_20240513_12345",
+    "items": [
+        {"sku": "WM_RICE_01", "quantity": 2, "price": 89.99},  # Rice
+        {"sku": "WM_MILK_02", "quantity": 1, "price": 45.50}   # Dairy
+    ],
+    "timestamp": "2024-05-13T10:30:00Z",
+    "payment_method": "cash"
 })
 
-# Update inventory
+# Update Winmart store inventory
 inv_manager = InventoryManager()
-inv_manager.adjust_stock("STORE_001", "SKU_001", -2)
+inv_manager.adjust_stock("WINMART_HCM_001", "WM_RICE_01", -2)
+inv_manager.adjust_stock("WINMART_HCM_001", "WM_MILK_02", -1)
 ```
 
 ## API Endpoints
 
 ```
-GET  /stores                      # List all stores
-GET  /stores/{store_id}/inventory # Get store inventory
-POST /transactions               # Record transaction
-GET  /analytics/forecast         # Demand forecast
-GET  /customers/{id}/analytics   # Customer analytics
+GET  /stores                          # List all Winmart store locations
+GET  /stores/{store_id}/inventory     # Get Winmart store inventory
+GET  /stores/{store_id}/performance   # Winmart store KPIs and metrics
+POST /transactions                    # Record POS transaction
+GET  /analytics/forecast              # Demand forecast across Winmart network
+GET  /analytics/planogram             # Shelf optimization for Winmart stores
+GET  /customers/{id}/analytics        # Loyalty customer analytics
+GET  /supply-chain/replenishment      # Replenishment recommendations
 ```
 
 ## Performance
