@@ -1,4 +1,6 @@
-# Winmart Retail Analytics Platform
+# 🏪 Winmart Retail Analytics Platform
+
+> Enterprise omnichannel retail analytics system for Winmart grocery chain with real-time POS, inventory optimization, demand forecasting, and supply chain intelligence.
 
 Comprehensive omnichannel retail operations platform for Winmart grocery chain stores across Vietnam. Integrates real-time point-of-sale (POS), inventory management, customer analytics, and supply chain optimization to drive data-driven decisions across the store network.
 
@@ -27,27 +29,69 @@ Enterprise retail analytics system purpose-built for Winmart grocery retail oper
 ## Architecture
 
 ```mermaid
-graph LR
-    A[Store POS Systems] --> B[Real-time Transaction Stream]
-    C[Inventory Sensors] --> B
-    D[External APIs] --> B
+flowchart TD
+    subgraph SOURCES["📱 Data Sources"]
+        A["🏪 Winmart POS<br/>Transaction Streams"]
+        C["📦 Inventory<br/>Sensors"]
+        D["🌐 External APIs<br/>Weather/Pricing"]
+    end
     
-    B --> E{Stream Processing}
-    E --> F[Bronze Layer]
-    F --> G[Silver Layer]
-    G --> H[Gold Layer]
+    subgraph STREAM["⚡ Real-time Stream"]
+        B["Kafka Event Stream<br/>Transaction Topics"]
+    end
     
-    H --> I[dbt Models]
-    I --> J[Analytics Engine]
+    subgraph LAYERS["🏗️ Data Medallion"]
+        F["🔵 Bronze<br/>Raw Transactions<br/>Immutable Log"]
+        G["🟢 Silver<br/>Cleaned & Validated<br/>Deduplicated"]
+        H["⭐ Gold<br/>Aggregated KPIs<br/>ML Features"]
+    end
     
-    J --> K[Dashboards]
-    J --> L[ML Models]
-    L --> M[Forecasting]
-    L --> N[Recommendations]
+    subgraph ANALYTICS["📊 Analytics & ML"]
+        I["dbt Models<br/>Staging • Marts"]
+        J["📈 Analytics Engine<br/>SQL Views"]
+        L["🤖 ML Models<br/>LightGBM"]
+    end
     
-    K --> O[Store Managers]
-    M --> P[Supply Chain]
-    N --> Q[Marketing]
+    subgraph OUTPUTS["🎯 Outputs"]
+        K["📱 Streamlit<br/>Dashboards"]
+        M["🔮 Demand<br/>Forecasting"]
+        N["💡 Smart<br/>Recommendations"]
+    end
+    
+    subgraph CONSUMERS["👥 Stakeholders"]
+        O["👔 Store Managers"]
+        P["🚚 Supply Chain"]
+        Q["📢 Marketing Team"]
+    end
+    
+    A --> B
+    C --> B
+    D --> B
+    
+    B --> F
+    F --> G
+    G --> H
+    
+    H --> I
+    H --> J
+    H --> L
+    
+    I --> K
+    J --> K
+    
+    L --> M
+    L --> N
+    
+    K --> O
+    M --> P
+    N --> Q
+    
+    style SOURCES fill:#ffe6cc,stroke:#ff9900,stroke-width:2px
+    style STREAM fill:#cce5ff,stroke:#0066cc,stroke-width:2px
+    style LAYERS fill:#ccffcc,stroke:#00cc00,stroke-width:2px
+    style ANALYTICS fill:#ffffcc,stroke:#ffcc00,stroke-width:2px
+    style OUTPUTS fill:#ffccff,stroke:#cc00cc,stroke-width:2px
+    style CONSUMERS fill:#ffcccc,stroke:#cc0000,stroke-width:2px
 ```
 
 ## Key Modules
