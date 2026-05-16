@@ -2,23 +2,6 @@
 
 > Nền tảng phân tích bán lẻ đa kênh cho chuỗi siêu thị **Winmart**: xử lý **POS** thời gian thực, tối ưu tồn kho, **demand forecasting**, và hỗ trợ quyết định chuỗi cung ứng.
 
-Tài liệu này dành cho **đội Product Owner (PO)** và stakeholder nghiệp vụ Winmart — giải thích **bài toán**, **giá trị**, **KPI**, và cách hệ thống dữ liệu hỗ trợ vận hành. Tên kỹ thuật (`SKU`, `API`, file code, stack) giữ nguyên tiếng Anh theo chuẩn triển khai.
-
-**Repository:** [ecommerce-analytics-data-platform](https://github.com/willtran112358/ecommerce-analytics-data-platform)
-
----
-
-## 📌 Tóm tắt 1 phút (cho PO)
-
-| Câu hỏi | Trả lời ngắn |
-|---------|----------------|
-| **Hệ thống làm gì?** | Gom dữ liệu bán hàng & tồn kho từ cửa hàng → làm sạch → tính **KPI** → **dự báo nhu cầu** theo cửa hàng × `SKU` → gợi ý đặt hàng / cảnh báo hết hàng. |
-| **Ai được lợi?** | Quản lý cửa hàng, Supply Chain, Marketing (khuyến mãi), Ban điều hành (dashboard). |
-| **Đã chạy được gì trong repo?** | Module **POS** (`transaction.py`), **Inventory** (`inventory.py`), **Sales Forecasting** (`forecasting.py` + `scripts/demo_forecast.py`), bộ **tests** tự động. |
-| **Chưa có trong repo (lộ trình)?** | `Kafka`, `dbt` full tree, `Airflow` DAG, `Streamlit` dashboard, `FastAPI` deploy production — mô tả trong kiến trúc mục tiêu bên dưới. |
-
----
-
 ## 🎯 Bài toán nghiệp vụ Winmart
 
 Chuỗi siêu thị Winmart vận hành nhiều cửa hàng, hàng nghìn `SKU` (thực phẩm tươi, khô, FMCG). Các pain point thường gặp:
@@ -29,29 +12,11 @@ Chuỗi siêu thị Winmart vận hành nhiều cửa hàng, hàng nghìn `SKU` 
 4. **POS và tồn kho lệch số** — cần đối soát (reconciliation) hằng ngày.
 5. **Khuyến mãi / giá đối thủ** — ảnh hưởng nhu cầu nhưng khó đo lường nhanh.
 
-Nền tảng này thiết kế để **chuẩn hóa dữ liệu** và đưa ra **dự báo có khoảng tin cậy**, giúp PO/Supply Chain ra quyết địch đặt hàng dựa trên số liệu thay vì cảm tính.
+Nền tảng này thiết kế để **chuẩn hóa dữ liệu** và đưa ra **dự báo có khoảng tin cậy**, hỗ trợ Supply Chain ra quyết định đặt hàng dựa trên số liệu thay vì cảm tính.
 
 ---
 
-## 👥 Persona & use case (góc nhìn PO)
-
-| Persona | Use case | Đầu ra mong đợi |
-|---------|----------|------------------|
-| **Quản lý cửa hàng** | Xem doanh thu, tồn, SKU sắp hết | Dashboard cửa hàng, alert OOS |
-| **Supply Chain / Planning** | Dự báo 7–14 ngày theo `SKU` | Bảng forecast + `lower_bound` / `upper_bound` |
-| **Marketing** | Đo hiệu quả khuyến mãi (`promotion` flag) | So sánh trước/sau campaign |
-| **Ban điều hành** | So sánh cửa hàng trong mạng | KPI benchmark `store_id` |
-| **Data / IT** | Pipeline ổn định, có test | CI (`GitHub Actions`), `pytest` |
-
-### User story mẫu (backlog tham khảo)
-
-- *Là* planner Supply Chain, *tôi muốn* xem dự báo bán 7 ngày tới cho `WM_RICE_01` tại `WINMART_HCM_001`, *để* đặt hàng đúng số lượng và giảm OOS.
-- *Là* quản lý cửa hàng, *tôi muốn* nhận cảnh báo khi `quantity_on_hand` ≤ `reorder_point`, *để* kích hoạt đặt hàng nội bộ.
-- *Là* PO Marketing, *tôi muốn* gắn cờ `promotion` vào dữ liệu bán, *để* đánh giá uplift sau khuyến mãi.
-
----
-
-## 📊 KPI & định nghĩa (cho alignment PO – Data)
+## 📊 KPI & định nghĩa
 
 | KPI / Metric | Định nghĩa nghiệp vụ | Nguồn dữ liệu gợi ý |
 |--------------|----------------------|---------------------|
@@ -389,14 +354,6 @@ pytest tests/ -v
 | **Confidence interval** | Khoảng tin cậy (vd. 90%) quanh điểm dự báo |
 | **Replenishment** | Đặt hàng bổ sung từ kho / NCC về cửa hàng |
 | **Medallion (Bronze/Silver/Gold)** | Mô hình phân lớp dữ liệu: thô → sạch → KPI |
-
----
-
-## Phạm vi & lưu ý khi gửi cho Winmart PO
-
-1. Repo là **minh họa kỹ thuật / portfolio** — dữ liệu trong `data/samples/` là **mẫu giả lập**, không phải dữ liệu thật Winmart.
-2. Để pilot production cần: kết nối POS thật, master `SKU`, lịch khuyến mãi, SLA pipeline, bảo mật & PDPA.
-3. Khuyến nghị workshop 60 phút với PO + Supply Chain: chốt **horizon dự báo**, **ngưỡng OOS**, và **quy tắc đặt hàng** từ `lower_bound` / `upper_bound`.
 
 ---
 
