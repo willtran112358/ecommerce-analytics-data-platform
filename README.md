@@ -1,6 +1,6 @@
-# 🏪 Winmart Retail Analytics Platform
+# 🏪 Winmart Analytics Data Platform
 
-> Nền tảng phân tích bán lẻ đa kênh cho **Winmart**: **POS**, tồn kho, **demand forecasting** (`LightGBM`), chuỗi cung ứng.
+> Nền tảng dữ liệu & phân tích cho **Winmart** — chuỗi bán lẻ **grocery** hàng đầu Việt Nam: **POS**, tồn kho cửa hàng, **demand forecasting** (`LightGBM`), và tối ưu chuỗi cung ứng.
 
 **Repo demo:** `transaction.py` · `inventory.py` · `forecasting.py` · `scripts/demo_forecast.py`
 
@@ -123,8 +123,8 @@ flowchart TB
 ## Quick Start
 
 ```bash
-git clone https://github.com/willtran112358/ecommerce-analytics-data-platform.git
-cd ecommerce-analytics-data-platform
+git clone https://github.com/willtran112358/winmart-analytics-data-platform.git
+cd winmart-analytics-data-platform
 python -m venv venv && venv\Scripts\activate   # Windows
 pip install -r requirements.txt
 python scripts/demo_forecast.py

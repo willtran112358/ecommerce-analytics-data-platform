@@ -48,4 +48,4 @@ jobs:
     - uses: actions/checkout@v3
     
     - name: Build Docker image
-      run: docker build -t ecommerce-analytics-platform:latest .
+      run: docker build -t winmart-analytics-data-platform:latest .

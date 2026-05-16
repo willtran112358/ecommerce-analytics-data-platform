@@ -3,9 +3,9 @@ requires = ["setuptools>=65.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "ecommerce-analytics-data-platform"
+name = "winmart-analytics-data-platform"
 version = "1.0.0"
-description = "Comprehensive retail analytics platform for Winmart grocery chain stores with POS transaction processing, multi-location inventory management, demand forecasting, and supply chain optimization"
+description = "Winmart (VN grocery retail) analytics data platform — POS, inventory, LightGBM demand forecasting, and supply chain KPIs"
 readme = "README.md"
 requires-python = ">=3.10"
 license = {text = "MIT"}
