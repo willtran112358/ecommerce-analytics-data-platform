@@ -30,6 +30,8 @@ ENV/
 htmlcov/
 logs/
 *.log
-data/
+data/*
+!data/samples/
+!data/samples/**
 *.db
 models/*.pkl

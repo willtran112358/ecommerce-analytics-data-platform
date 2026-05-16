@@ -153,13 +153,31 @@ retail/
 └── .github/workflows/
 ```
 
+## Sales Forecasting (VinMart / Winmart)
+
+Store × SKU daily unit forecasts with **90% confidence intervals** via `SalesForecastPipeline` (LightGBM default, RandomForest fallback):
+
+```bash
+python scripts/demo_forecast.py
+```
+
+```python
+from forecasting import SalesForecastPipeline
+import pandas as pd
+
+daily = pd.read_csv("data/samples/daily_sales_sample.csv", parse_dates=["date"])
+pipe = SalesForecastPipeline(backend="lightgbm")
+pipe.fit(daily)
+forecast_df = pipe.to_dataframe(pipe.predict_horizon(daily, horizon_days=7))
+```
+
 ## Quick Start
 
 ### Setup
 
 ```bash
-git clone https://github.com/willtran112358/retail-analytics-platform.git
-cd retail
+git clone https://github.com/willtran112358/ecommerce-analytics-data-platform.git
+cd ecommerce-analytics-data-platform
 
 # Create environment
 python -m venv venv
